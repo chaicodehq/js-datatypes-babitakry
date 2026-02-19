@@ -27,6 +27,22 @@
  *   maskAadhaar("9876")
  *   // => "INVALID"
  */
+
+function checkDigits(str) {
+  for (let char of str) {
+    if (char < "0" || char > "9") {
+      return false;
+    }
+  }
+  return true;
+}
+
 export function maskAadhaar(aadhaarNumber) {
-  // Your code here
+    if(typeof aadhaarNumber !== "string" || aadhaarNumber.length !== 12 || !checkDigits(aadhaarNumber)){
+        return "INVALID";
+    }
+
+    const lastPart = aadhaarNumber.slice(-4);
+
+    return `XXXX-XXXX-${lastPart}`;
 }
