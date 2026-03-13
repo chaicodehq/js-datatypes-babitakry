@@ -46,5 +46,34 @@
  *   // grandTotal: 1000 + 0 + 50 - 150 = 900
  */
 export function buildZomatoOrder(cart, coupon) {
-  // Your code here
+    if (!Array.isArray(cart) || cart.length === 0)
+        return null;
+
+    const filteredItems = cart.filter((item) => item.qty > 0);
+    const items = filteredItems.map((item) => {
+        const addonTotal = (item.addons || []).reduce((total, addon) => {
+            //ram: 20000 ---> split [ram, 20000] ---> select first index
+            const price = Number(addon.split(":")[1]) || 0;
+            // Logical Or always return first truthy or last falsy value.
+
+            return total + price;
+        }, 0);
+
+        const itemTotal = (item.price + addonTotal) * item.qty;
+        return {
+            name: item.name,
+            basePrice: item.price,
+            qty: item.qty,
+            addonTotal: addonTotal,
+            itemTotal, //
+        }
+    })
+
+
+
+
+
+
+
+    return { items, subtotal, deliveryFee, gst, discount, grandTotal };
 }
